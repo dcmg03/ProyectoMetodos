@@ -14,6 +14,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 class MainWindow:
     def __init__(self):
 
+
+
         self.window=tkinter.Tk()
         self.window.title("Proyecto metodos")
         self.window.geometry("640x280")
@@ -32,8 +34,16 @@ class MainWindow:
         self.window.grid_columnconfigure(0, weight=1)
         self.window.grid_columnconfigure(1, weight=1)
         self.window.grid_columnconfigure(2, weight=1)
-        self.title = tkinter.Label(self.window, text="Bienvenido,elija el método con el que desea trabajar", bg="gold",font="Helvetica 20")
+        self.title = tkinter.Label(self.window, text="Metodos Numericos", bg="gold",font="Helvetica 20",background="#2196F3")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
+
+        #menu de opciones para los diferentes metodos
+        self.option_var = tkinter.StringVar()
+        self.option_var.set("Select an option")
+        self.dropdown = ttk.Combobox(self.window, textvariable=self.option_var, state="readonly", style="TCombobox")
+        self.dropdown['values'] = ("Menú", "Option B", "Option C")
+        #self.dropdown.pack(pady=20)
+
         self.button1 = tkinter.Button(self.window,text="PUNTO FIJO", font="Helvetica 13", width=10, height=5, command=self.punto_fijo)
         self.button2 = tkinter.Button(self.window,text="BISECCIÓN", font="Helvetica 13", width=10, height=5,command=self.biseccion)
         self.button3 = tkinter.Button(self.window,text="SECANTE", font="Helvetica 13", width=10, height=5,command=self.secante)
