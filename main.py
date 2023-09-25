@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from numpy import character
 from Simpson import simpson
 from Secante import secante
@@ -8,14 +8,12 @@ from Trapezoide import trapecio
 from MBiseccion import biseccion
 from gauss import gaussMethod
 from Simpson import simpson
-from minimosCuadrados import ajustar_linea
+#from minimosCuadrados import ajustar_linea
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class MainWindow:
     def __init__(self):
-
-
 
         self.window=tkinter.Tk()
         self.window.title("Proyecto metodos")
@@ -60,7 +58,7 @@ class MainWindow:
         self.button6.grid(row=2, column=2, padx=5, pady=5, sticky="NSEW")
         self.button7.grid(row=3, column=1, padx=5, pady=5, sticky="NSEW")
 
-        for btn in (self.button1, self.button2, self.button3, self.button4, self.button5, self.button6):
+        for btn in (self.button1, self.button2, self.button3, self.button4, self.button5, self.button6, self.button7):
             btn.configure(height=5, width=10)
         self.window.protocol("WM_DELETE_WINDOW", self.on_cerrar_ventana_principal)
 
@@ -755,10 +753,66 @@ class MainWindow:
 
     def minimos(self):
         self.window.withdraw()
-        self.windowgauss = tkinter.Toplevel(self.window)
-        self.windowgauss.title("Minimos Cuadrados")
-        self.windowgauss.geometry("640x280")
-        self.windowgauss.update()
+        self.windowminimos = tkinter.Toplevel(self.window)
+        self.windowminimos.title("Método de Mínimos Cuadrados")
+        self.windowminimos.geometry("640x280")
+        self.windowminimos.update()
+        screen_width = self.windowminimos.winfo_screenwidth()
+        screen_height = self.windowminimos.winfo_screenheight()
+        x = int((screen_width / 2) - (self.windowminimos.winfo_width() / 2))
+        y = int((screen_height / 2) - (self.windowminimos.winfo_height() / 2))
+        self.windowminimos.geometry("+{}+{}".format(x, y))
+        self.title = tkinter.Label(self.windowminimos, text="Metodo Minimos Cuadrados", bg="lightblue", font="Helvetica 20")
+        self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
+        self.text = tkinter.Text(self.windowminimos, width=67, height=4, font="Helvetica 10", state="disabled",
+                                 bg="lightblue")
+        self.text.config(state="normal")
+
+
+
+        # Etiqueta para el número de coordenadas
+        self.label_num_coordinates = tkinter.Label(self.windowminimos, text="Número de coordenadas:")
+        self.label_num_coordinates.grid(row=1, column=0, columnspan=3, sticky="nsew")
+        #self.label_num_coordinates.pack()
+
+        self.entry_num_coordinates = tkinter.Entry(self.windowminimos)
+        self.entry_num_coordinates.grid(row=2, column=0, columnspan=3, sticky="nsew")
+        #self.entry_num_coordinates.pack()
+
+        # Botón para ingresar las coordenadas
+        self.enter_coordinates_button = tkinter.Button(self.windowminimos, text="Ingresar Coordenadas",
+                                                  command=self.enter_coordinates())
+        self.enter_coordinates_button.grid(row=3, column=0, columnspan=3, sticky="nsew")
+       # self.enter_coordinates_button.pack()
+
+        self.coordinates_frame = tkinter.Frame(self.windowminimos)
+
+        # Botón de calcular
+        self.calculate_button = tkinter.Button(self.windowminimos, text="Calcular", command=self.calculate)
+        self.calculate_button.grid(row=4, column=0, columnspan=3, sticky="nsew")
+        #self.calculate_button.pack()
+        def enter_coordinates(self):
+            try:
+                num_coordinates = int(self.entry_num_coordinates.get())
+
+                # Crear campos de entrada para las coordenadas
+                self.coordinates_entries = []
+                for i in range(num_coordinates):
+                    label = tkinter.Label(self.coordinates_frame, text=f"Coordenada {i + 1}:")
+                    label.grid(row=i, column=0)
+
+                    entry = tkinter.Entry(self.coordinates_frame)
+                    entry.grid(row=i, column=1)
+                    self.coordinates_entries.append(entry)
+
+                self.coordinates_frame.pack()
+
+                # Deshabilitar el botón para ingresar coordenadas después de haber ingresado las coordenadas
+                self.enter_coordinates_button.config(state="disabled")
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
+
+
     def gauss(self):
 
             self.window.withdraw()
@@ -873,6 +927,7 @@ class MainWindow:
 
     def validate(self,character):
         return all(c.isdigit() or c == '.' or (c == '-' and i == 0) for i, c in enumerate(character))
+
 
 
 
