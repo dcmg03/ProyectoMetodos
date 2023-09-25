@@ -1,6 +1,6 @@
 import tkinter
 from tkinter import ttk, messagebox
-from numpy import character
+from numpy import character as np
 from Simpson import simpson
 from Secante import secante
 from Punto_Fijo import punto
@@ -14,6 +14,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class MainWindow:
     def __init__(self):
+
 
         self.window=tkinter.Tk()
         self.window.title("Proyecto metodos")
@@ -78,10 +79,10 @@ class MainWindow:
         x = int((screen_width / 2) - (self.windowpt.winfo_width() / 2))
         y = int((screen_height / 2) - (self.windowpt.winfo_height() / 2))
         self.windowpt.geometry("+{}+{}".format(x, y))
-        self.title = tkinter.Label(self.windowpt, text="Metodo Punto Fijo", bg="gold", font="Helvetica 20")
+        self.title = tkinter.Label(self.windowpt, text="Metodo Punto Fijo", bg="lightblue", font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
        #MENSAJE INFORMATIVO
-        self.text = tkinter.Text(self.windowpt, width=68,height=4,font="Helvetica 10",state="disabled",bg="lightblue")
+        self.text = tkinter.Text(self.windowpt, width=68,height=4,font="Helvetica 10",state="disabled",bg="lightgreen")
         self.text.config(state="normal")
         texto_ejemplo = "Para el ingreso de funciones tener en cuenta:\n *Raices cuadradas: np.sqrt() o x**(1/2), cubicas np.cbsqrt o  x**(1/3)\n *Funciones trigonométricas antepuestas con np.cos, np.sen \n *El término variable se expresa con x "
         self.text.insert("1.0", texto_ejemplo)
@@ -771,19 +772,18 @@ class MainWindow:
 
 
         # Etiqueta para el número de coordenadas
-        self.label_num_coordinates = tkinter.Label(self.windowminimos, text="Número de coordenadas:")
+        self.label_num_coordinates = tkinter.Label(self.windowminimos, text="Número de coordenadas:", font="Helvetica 13", background="darkgray")
         self.label_num_coordinates.grid(row=1, column=0, columnspan=3, sticky="nsew")
-        #self.label_num_coordinates.pack()
-
         self.entry_num_coordinates = tkinter.Entry(self.windowminimos)
         self.entry_num_coordinates.grid(row=2, column=0, columnspan=3, sticky="nsew")
-        #self.entry_num_coordinates.pack()
+
 
         # Botón para ingresar las coordenadas
-        self.enter_coordinates_button = tkinter.Button(self.windowminimos, text="Ingresar Coordenadas",
-                                                  command=self.enter_coordinates())
-        self.enter_coordinates_button.grid(row=3, column=0, columnspan=3, sticky="nsew")
-       # self.enter_coordinates_button.pack()
+        self.enter_coordinates_button = tkinter.Button(self.windowminimos, text="Ingresar Coordenadas", width=10, height=2,command= self.enter_coordinates )
+        self.enter_coordinates_button.grid(row=3, column=1, padx=10, pady=10)
+       # self.open_windows.append(self.windowsimp)
+
+
 
         self.coordinates_frame = tkinter.Frame(self.windowminimos)
 
@@ -791,30 +791,10 @@ class MainWindow:
         self.calculate_button = tkinter.Button(self.windowminimos, text="Calcular", command=self.calculate)
         self.calculate_button.grid(row=4, column=0, columnspan=3, sticky="nsew")
         #self.calculate_button.pack()
-        def enter_coordinates(self):
-            try:
-                num_coordinates = int(self.entry_num_coordinates.get())
 
-                # Crear campos de entrada para las coordenadas
-                self.coordinates_entries = []
-                for i in range(num_coordinates):
-                    label = tkinter.Label(self.coordinates_frame, text=f"Coordenada {i + 1}:")
-                    label.grid(row=i, column=0)
-
-                    entry = tkinter.Entry(self.coordinates_frame)
-                    entry.grid(row=i, column=1)
-                    self.coordinates_entries.append(entry)
-
-                self.coordinates_frame.pack()
-
-                # Deshabilitar el botón para ingresar coordenadas después de haber ingresado las coordenadas
-                self.enter_coordinates_button.config(state="disabled")
-            except Exception as e:
-                messagebox.showerror("Error", str(e))
 
 
     def gauss(self):
-
             self.window.withdraw()
             self.windowgauss = tkinter.Toplevel(self.window)
             self.windowgauss.title("Gauss-Seidel")
@@ -909,7 +889,49 @@ class MainWindow:
             self.matriz.append(self.fila)
         #gaussMethod(self.caja_filas, self.caja_columnas,self.matriz)
 
+    def enter_coordinates(self):
+        try:
+            num_coordinates = int(self.entry_num_coordinates.get())
 
+            # Crear campos de entrada para las coordenadas
+            self.coordinates_entries = []
+            for i in range(num_coordinates):
+                label = tkinter.Label(self.coordinates_frame, text=f"Coordenada {i + 1}:")
+                label.grid(row=i, column=0)
+
+                entry = tkinter.Entry(self.coordinates_frame)
+                entry.grid(row=i, column=1)
+                self.coordinates_entries.append(entry)
+
+            self.coordinates_frame.pack()
+
+            # Deshabilitar el botón para ingresar coordenadas después de haber ingresado las coordenadas
+            self.enter_coordinates_button.config(state="disabled")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    def calculate(self):
+        try:
+            # Obtener las coordenadas ingresadas por el usuario
+            x = []
+            y = []
+
+            for entry in self.coordinates_entries:
+                data_str = entry.get()
+                data_str = data_str.replace(' ', '')  # Eliminar espacios en blanco
+                data = [float(val) for val in data_str.split(',')]
+                x.append(data[0])
+                y.append(data[1])
+
+            x = np.array(x)
+            y = np.array(y)
+            # Realizar el ajuste lineal utilizando mínimos cuadrados
+            a, b = self.minimos_cuadrados(x, y)
+
+            # Mostrar resultados en una nueva ventana
+            self.show_results(a, b, x, y)
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def back(self,actual_window):
        actual_window.destroy()
