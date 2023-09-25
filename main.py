@@ -8,6 +8,7 @@ from Trapezoide import trapecio
 from MBiseccion import biseccion
 from gauss import gaussMethod
 from Simpson import simpson
+from minimosCuadrados import ajustar_linea
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -18,7 +19,7 @@ class MainWindow:
 
         self.window=tkinter.Tk()
         self.window.title("Proyecto metodos")
-        self.window.geometry("640x280")
+        self.window.geometry("640x640")
         self.window.update()
         self.open_windows = []
         screen_width=self.window.winfo_screenwidth()
@@ -50,13 +51,14 @@ class MainWindow:
         self.button4 = tkinter.Button(self.window,text="TRAPECIO", font="Helvetica 13", width=10, height=5,command=self.trapecio)
         self.button5 = tkinter.Button(self.window,text="SIMPSON", font="Helvetica 13", width=10, height=5,command=self.simpson)
         self.button6 = tkinter.Button(self.window,text="GAUSS-SEIDEL", font="Helvetica 13", width=10, height=5,command=self.gauss)
-
+        self.button7 =tkinter.Button(self.window,text="MINIMOS CUADRADOS", font="Helvetica 13", width=10, height=5,command=self.minimos)
         self.button1.grid(row=1, column=0, padx=5, pady=5, sticky="NSEW")
         self.button2.grid(row=1, column=1, padx=5, pady=5, sticky="NSEW")
         self.button3.grid(row=1, column=2, padx=5, pady=5, sticky="NSEW")
         self.button4.grid(row=2, column=0, padx=5, pady=5, sticky="NSEW")
         self.button5.grid(row=2, column=1, padx=5, pady=5, sticky="NSEW")
         self.button6.grid(row=2, column=2, padx=5, pady=5, sticky="NSEW")
+        self.button7.grid(row=3, column=1, padx=5, pady=5, sticky="NSEW")
 
         for btn in (self.button1, self.button2, self.button3, self.button4, self.button5, self.button6):
             btn.configure(height=5, width=10)
@@ -751,7 +753,12 @@ class MainWindow:
             back_maintrap.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
             self.open_windows.append(self.windowressimp)
 
-
+    def minimos(self):
+        self.window.withdraw()
+        self.windowgauss = tkinter.Toplevel(self.window)
+        self.windowgauss.title("Minimos Cuadrados")
+        self.windowgauss.geometry("640x280")
+        self.windowgauss.update()
     def gauss(self):
 
             self.window.withdraw()
