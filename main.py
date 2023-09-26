@@ -159,22 +159,7 @@ class MainWindow:
 
 
 
-        #Boton Regresar
-        back_main = tkinter.Button(self.windownewton, text="Regresar", width=10, height=2,
-                                   command=lambda: self.back(self.windownewton))
-        back_main.grid(row=10, column=1)
-        self.open_windows.append(self.windownewton)
 
-        # MENSAJE INFORMATIVO
-        self.text = tkinter.Text(self.windownewton, width=68, height=4, font="Helvetica 10", state="disabled",
-                                 bg="lightgreen")
-        self.text.config(state="normal")
-        texto_ejemplo = "Para el ingreso de funciones tener en cuenta:\n *Raices cuadradas: np.sqrt() o x**(1/2), cubicas np.cbsqrt o  x**(1/3)\n *Funciones trigonométricas antepuestas con np.cos, np.sen \n *El término variable se expresa con x "
-        self.text.insert("1.0", texto_ejemplo)
-        self.text.config(state="disabled")
-        self.text.tag_configure("center", justify="center")
-        self.text.tag_add("center", "1.0", "end")
-        self.text.grid(row=1, column=0, columnspan=3, padx=3, pady=3)
 
          # FUNCION SIN DESPEJAR
         self.label_function = tkinter.Label(self.windownewton, text="Función sin despejar f(x):", font="Helvetica 13",
@@ -221,6 +206,11 @@ class MainWindow:
         calculate = tkinter.Button(self.windownewton, text="Calcular", width=10, height=2, command=self.startPuntoFijo)
         calculate.grid(row=8, column=1, padx=10, pady=10)
         self.open_windows.append(self.windownewton)
+
+        # boton regresar
+        back_main = tkinter.Button(self.windownewton, text="Regresar", width=10, height=2,
+                                   command=lambda: self.back(self.windownewton))
+        back_main.grid(row=10, column=1)
 
     def punto_fijo(self):
         self.window.withdraw()
