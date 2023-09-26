@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import sympy as sym
 
 def secante(f,a,b,e):
+    plt.clf()
     fx  = lambda x: eval(f)
     x = np.linspace(-10,10,1000)
     x0 =float(a)

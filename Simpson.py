@@ -2,29 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sym
 
-def simpson(f,ai,bi,trap):
+def simpson(f, ai, bi, trap):
+    plt.clf()
     e = np.exp(1)
-    y=sym.Symbol('y')
-    x= sym.Symbol('x')
-    input=f
-    f =lambda x:eval(input)
-    a=float(ai)
-    b=float(bi)
-    n_trapecios=int(trap)
-    graficar=False
-    medio=(b-a)/2
+    y = sym.Symbol('y')
+    x = sym.Symbol('x')
+    input_f = f
+    f = lambda x: eval(input_f)
+    a = float(ai)
+    b = float(bi)
+    n_trapecios = int(trap)
+    graficar = False
+    medio = (b - a) / 2
     h = (b - a) / n_trapecios
-    dr4 = abs(f(a) - 4 * f(medio) + 6 * f((a + medio) / 2) + f(b)) / (h ** 4)
     aux = a
-
+    dr4 = sym.diff(f(x), x, 4)
 
     if n_trapecios == 2:
         T = (h / 6 * n_trapecios) * (f(a) + 4 * f((b - a) / 2) + f(b))
-        print('El area bajo la curva es: ', np.abs(T))
         x = np.linspace(a, b, n_trapecios + 1)
         y = f(x)
-        error = ((b - a) ** 5 / (180 * n_trapecios ** 4)) * dr4
-        graficar=True
+
+        error = abs(((b - a) ** 5 / (180 * n_trapecios ** 4)) * dr4)
+
+        graficar = True
     elif n_trapecios > 2 and n_trapecios % 2 == 0:
         try:
             sum = 0
@@ -35,18 +36,17 @@ def simpson(f,ai,bi,trap):
             x = np.linspace(a, b, n_trapecios + 1)
             y = f(x)
             T = ((b - a) / (6 * n_trapecios)) * (f(a) + 4 * sum + 2 * np.sum(y[1:-1]) + f(b))
-            #print('El area bajo la curva es: ', np.abs(T))
-            error = ((b - a) ** 5 / (180 * n_trapecios ** 4)) * dr4
-            #print("El valor del error es :" + str(error))
-            graficar=True
+
+            error = abs(((b - a) ** 5 / (180 * n_trapecios ** 4)) * dr4)
+
+            graficar = True
         except ZeroDivisionError:
             print("La función no se puede evaluar en cero")
-
     else:
-        print('No se puede aplicar el metodo de simpson')
-        grafica=False
+        print('No se puede aplicar el método de Simpson')
+        grafica = False
 
-    if graficar==True:
+    if graficar:
         fig, ax = plt.subplots()
         ax.plot(x, y)
         for i in range(n_trapecios):
@@ -61,4 +61,4 @@ def simpson(f,ai,bi,trap):
         ax.set_ylabel('y')
         ax.set_title('Método de Simpson')
 
-    return[plt.gcf(),np.abs(T),error]
+    return [plt.gcf(), np.abs(T), error]

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 # Funciones
 def punto(f, g, a, e, it):
+    plt.clf()
     error = []
 
     def puntofijo(gx, a, tolera, iteramax=15):

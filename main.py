@@ -8,7 +8,7 @@ from Trapezoide import trapecio
 from MBiseccion import biseccion
 from gauss import gaussMethod
 from Simpson import simpson
-#from minimosCuadrados import ajustar_linea
+
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -37,12 +37,7 @@ class MainWindow:
         self.title = tkinter.Label(self.window, text="Metodos Numericos", bg="gold",font="Helvetica 20",background="#2196F3")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
 
-        #menu de opciones para los diferentes metodos
-        self.option_var = tkinter.StringVar()
-        self.option_var.set("Select an option")
-        self.dropdown = ttk.Combobox(self.window, textvariable=self.option_var, state="readonly", style="TCombobox")
-        self.dropdown['values'] = ("Menú", "Option B", "Option C")
-        #self.dropdown.pack(pady=20)
+
 
         self.button1 = tkinter.Button(self.window,text="PUNTO FIJO", font="Helvetica 13", width=10, height=5, command=self.punto_fijo)
         self.button2 = tkinter.Button(self.window,text="BISECCIÓN", font="Helvetica 13", width=10, height=5,command=self.biseccion)
@@ -189,10 +184,10 @@ class MainWindow:
         x = int((screen_width / 2) - (self.windowbis.winfo_width() / 2))
         y = int((screen_height / 2) - (self.windowbis.winfo_height() / 2))
         self.windowbis.geometry("+{}+{}".format(x, y))
-        self.title = tkinter.Label(self.windowbis, text="Metodo Biseccion", bg="gold",font="Helvetica 20")
+        self.title = tkinter.Label(self.windowbis, text="Metodo Biseccion", bg="lightblue",font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
         #Espacio de texto recomendaciones
-        self.text = tkinter.Text(self.windowbis, width=56, height=4, font="Helvetica 10", state="disabled",bg="lightblue")
+        self.text = tkinter.Text(self.windowbis, width=56, height=4, font="Helvetica 10", state="disabled",bg="lightgreen")
         self.text.config(state="normal")
         texto_ejemplo = "Para el ingreso de funciones tener en cuenta:\n *Raices cuadradas: np.sqrt() o x**(1/2), cubicas np.cbsqrt o  x**(1/3)\n *Funciones trigonométricas antepuestas con np.cos, np.sen \n *El término variable se expresa con x "
         self.text.insert("1.0", texto_ejemplo)
@@ -275,7 +270,7 @@ class MainWindow:
             x = int((screen_width / 2) - (self.windowresbis.winfo_width() / 2))
             y = int((screen_height / 2) - (self.windowresbis.winfo_height() / 2))
             self.windowresbis.geometry("+{}+{}".format(x, y))
-            self.title = tkinter.Label(self.windowresbis, text="Resultados Biseccion", bg="gold", font="Helvetica 20")
+            self.title = tkinter.Label(self.windowresbis, text="Resultados Biseccion", bg="lightblue", font="Helvetica 20")
             self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
             self.label_res = tkinter.Label(self.windowresbis, text="La raíz se encuentra en:", font="Helvetica 13",background="darkgray")
             self.label_res.grid(row=1, column=0, padx=3, pady=3)
@@ -308,7 +303,7 @@ class MainWindow:
         x = int((screen_width / 2) - (self.windowshowt.winfo_width() / 2))
         y = int((screen_height / 2) - (self.windowshowt.winfo_height() / 2))
         self.windowshowt.geometry("+{}+{}".format(x, y))
-        self.title = tkinter.Label(self.windowshowt, text="Tabla Resultados", bg="gold", font="Helvetica 20")
+        self.title = tkinter.Label(self.windowshowt, text="Tabla Resultados", bg="lightblue", font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
         table = ttk.Treeview(self.windowshowt, columns=("col1", "col2", "col3","col4","col5","col6"), show="headings")
         table.heading("col1", text="xi",anchor=tkinter.CENTER)
@@ -341,10 +336,10 @@ class MainWindow:
         x = int((screen_width / 2) - (self.windowsec.winfo_width() / 2))
         y = int((screen_height / 2) - (self.windowsec.winfo_height() / 2))
         self.windowsec.geometry("+{}+{}".format(x, y))
-        self.title = tkinter.Label(self.windowsec, text="Metodo Secante", bg="gold", font="Helvetica 20")
+        self.title = tkinter.Label(self.windowsec, text="Metodo Secante", bg="lightblue", font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
         #Area de texto informativa
-        self.text = tkinter.Text(self.windowsec, width=60, height=4, font="Helvetica 10", state="disabled",bg="lightblue")
+        self.text = tkinter.Text(self.windowsec, width=60, height=4, font="Helvetica 10", state="disabled",bg="lightgreen")
         self.text.config(state="normal")
         texto_ejemplo = "Para el ingreso de funciones tener en cuenta:\n *Raices cuadradas: np.sqrt() o x**(1/2), cubicas np.cbsqrt o  x**(1/3)\n *Funciones trigonométricas antepuestas con np.cos, np.sen \n *El término variable se expresa con x "
         self.text.insert("1.0", texto_ejemplo)
@@ -434,7 +429,7 @@ class MainWindow:
             x = int((screen_width / 2) - (self.windowressec.winfo_width() / 2))
             y = int((screen_height / 2) - (self.windowressec.winfo_height() / 2))
             self.windowressec.geometry("+{}+{}".format(x, y))
-            self.title = tkinter.Label(self.windowressec, text="Resultados Secante", bg="gold", font="Helvetica 20")
+            self.title = tkinter.Label(self.windowressec, text="Resultados Secante", bg="lightblue", font="Helvetica 20")
             self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
             self.label_res = tkinter.Label(self.windowressec, text="La raíz se encuentra en:", font="Helvetica 13",background="darkgray")
             self.label_res.grid(row=1, column=0, padx=3, pady=3)
@@ -467,7 +462,7 @@ class MainWindow:
         x = int((screen_width / 2) - (self.windowshowtsec.winfo_width() / 2))
         y = int((screen_height / 2) - (self.windowshowtsec.winfo_height() / 2))
         self.windowshowtsec.geometry("+{}+{}".format(x, y))
-        self.title = tkinter.Label(self.windowshowtsec, text="Tabla Resultados", bg="gold", font="Helvetica 20")
+        self.title = tkinter.Label(self.windowshowtsec, text="Tabla Resultados", bg="lightblue", font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
         table = ttk.Treeview(self.windowshowtsec, columns=("col1", "col2", "col3"),show="headings")
         table.heading("col1", text="xi", anchor=tkinter.CENTER)
@@ -494,10 +489,10 @@ class MainWindow:
             x = int((screen_width / 2) - (self.windowtrap.winfo_width() / 2))
             y = int((screen_height / 2) - (self.windowtrap.winfo_height() / 2))
             self.windowtrap.geometry("+{}+{}".format(x, y))
-            self.title = tkinter.Label(self.windowtrap, text="Metodo Trapecio", bg="gold", font="Helvetica 20")
+            self.title = tkinter.Label(self.windowtrap, text="Metodo Trapecio", bg="lightblue", font="Helvetica 20")
             self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
             #Area de texto informativa
-            self.text = tkinter.Text(self.windowtrap, width=66, height=4, font="Helvetica 10", state="disabled",bg="lightblue")
+            self.text = tkinter.Text(self.windowtrap, width=66, height=4, font="Helvetica 10", state="disabled",bg="lightgreen")
             self.text.config(state="normal")
             texto_ejemplo = "Para el ingreso de funciones tener en cuenta:\n *Raices cuadradas: np.sqrt() o x**(1/2), cubicas np.cbsqrt o  x**(1/3)\n *Funciones trigonométricas antepuestas con np.cos, np.sen \n *El término variable se expresa con x "
             self.text.insert("1.0", texto_ejemplo)
@@ -594,7 +589,7 @@ class MainWindow:
             x = int((screen_width / 2) - (self.windowrestrap.winfo_width() / 2))
             y = int((screen_height / 2) - (self.windowrestrap.winfo_height() / 2))
             self.windowrestrap.geometry("+{}+{}".format(x, y))
-            self.title = tkinter.Label(self.windowrestrap, text="Resultados Trapecio", bg="gold", font="Helvetica 20")
+            self.title = tkinter.Label(self.windowrestrap, text="Resultados Trapecio", bg="lightblue", font="Helvetica 20")
             self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
             self.label_res = tkinter.Label(self.windowrestrap, text="El area bajo la curva es:", font="Helvetica 13",background="darkgray")
             self.label_res.grid(row=1, column=0, padx=3, pady=3)
@@ -626,9 +621,9 @@ class MainWindow:
             x = int((screen_width / 2) - (self.windowsimp.winfo_width() / 2))
             y = int((screen_height / 2) - (self.windowsimp.winfo_height() / 2))
             self.windowsimp.geometry("+{}+{}".format(x, y))
-            self.title = tkinter.Label(self.windowsimp, text="Metodo Simpson", bg="gold", font="Helvetica 20")
+            self.title = tkinter.Label(self.windowsimp, text="Metodo Simpson", bg="lightblue", font="Helvetica 20")
             self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
-            self.text = tkinter.Text(self.windowsimp, width=67, height=4, font="Helvetica 10", state="disabled",bg="lightblue")
+            self.text = tkinter.Text(self.windowsimp, width=67, height=4, font="Helvetica 10", state="disabled",bg="lightgreen")
             self.text.config(state="normal")
             texto_ejemplo = "Para el ingreso de funciones tener en cuenta:\n *Raices cuadradas: np.sqrt() o x**(1/2), cubicas np.cbsqrt o  x**(1/3)\n *Funciones trigonométricas antepuestas con np.cos, np.sen \n *El término variable se expresa con x "
             self.text.insert("1.0", texto_ejemplo)
@@ -732,7 +727,7 @@ class MainWindow:
             x = int((screen_width / 2) - (self.windowressimp.winfo_width() / 2))
             y = int((screen_height / 2) - (self.windowressimp.winfo_height() / 2))
             self.windowressimp.geometry("+{}+{}".format(x, y))
-            self.title = tkinter.Label(self.windowressimp, text="Resultados Simpson", bg="gold", font="Helvetica 20")
+            self.title = tkinter.Label(self.windowressimp, text="Resultados Simpson", bg="lightgreen", font="Helvetica 20")
             self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
             resultsimp = simpson(self.entry_functionsim.get(), self.entry_x0sim.get(), self.entry_intervalBsim.get(),self.entry_ntrapsim.get())
             self.label_res = tkinter.Label(self.windowressimp, text="El area bajo la curva es:", font="Helvetica 13",background="darkgray")
@@ -792,6 +787,11 @@ class MainWindow:
         self.calculate_button.grid(row=4, column=0, columnspan=3, sticky="nsew")
         #self.calculate_button.pack()
 
+        back_main = tkinter.Button(self.windowminimos, text="Regresar", width=10, height=2,
+                                   command=lambda: self.back(self.windowminimos))
+        back_main.grid(row=10, column=1)
+        self.open_windows.append(self.windowminimos)
+
 
 
     def gauss(self):
@@ -805,7 +805,7 @@ class MainWindow:
             x = int((screen_width / 2) - (self.windowgauss.winfo_width() / 2))
             y = int((screen_height / 2) - (self.windowgauss.winfo_height() / 2))
             self.windowgauss.geometry("+{}+{}".format(x, y))
-            self.title = tkinter.Label(self.windowgauss, text="Metodo Gauss-seidel", bg="gold", font="Helvetica 20")
+            self.title = tkinter.Label(self.windowgauss, text="Metodo Gauss-seidel", bg="lightblue", font="Helvetica 20")
             self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
 
             self.etiqueta_filas = tkinter.Label(self.windowgauss, text=" Numero de Filas:")

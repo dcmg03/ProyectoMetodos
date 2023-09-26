@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 #Ingreso
 def biseccion(f,a,b):
+    plt.clf()
     input=f
     fx =lambda x:eval(input)
     # fx = lambda x: -0.5*(x**2) + 2.5*x + 4.5
