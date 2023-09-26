@@ -18,7 +18,7 @@ class MainWindow:
 
         self.window = tkinter.Tk()
         self.window.title("Proyecto metodos")
-        self.window.geometry("640x640")
+        self.window.geometry("550x480")
         self.window.update()
         self.open_windows = []
         screen_width = self.window.winfo_screenwidth()
@@ -926,6 +926,8 @@ class MainWindow:
         self.entry_num_coordinates = tkinter.Entry(self.windowminimos)
         self.entry_num_coordinates.grid(row=2, column=0, columnspan=3, sticky="nsew")
 
+
+
         # Botón para ingresar las coordenadas
         self.enter_coordinates_button = tkinter.Button(self.windowminimos, text="Ingresar Coordenadas", width=10,
                                                        height=2, command=self.enter_coordinates)
@@ -938,11 +940,11 @@ class MainWindow:
         self.calculate_button = tkinter.Button(self.windowminimos, text="Calcular", command=self.calculate)
         self.calculate_button.grid(row=4, column=0, columnspan=3, sticky="nsew")
         # self.calculate_button.pack()
-
-        back_main = tkinter.Button(self.windowminimos, text="Regresar", width=10, height=2,
-                                   command=lambda: self.back(self.windowminimos))
-        back_main.grid(row=10, column=1)
+        back_maintrap = tkinter.Button(self.windowminimos, text="Regresar", width=10, height=2,
+                                       command=lambda: self.back(self.windowminimos))
+        back_maintrap.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
         self.open_windows.append(self.windowminimos)
+
 
     def gauss(self):
         self.window.withdraw()
@@ -1003,7 +1005,7 @@ class MainWindow:
                 self.caja.grid(row=i, column=j)
                 self.fila.append(self.caja)
             self.matriz.append(self.fila)
-        # Agregar el botón de resolver
+        #Agregar el botón de resolver
         boton_resolver = tkinter.Button(frame_matriz, text="Resolver", command=self.resolver_matriz)
         boton_resolver.grid()
 
@@ -1024,19 +1026,6 @@ class MainWindow:
         print(self.b_entries)
         tkinter.Button(frame_matriz, text="Siguiente", command=self.resolver_matriz).grid(row=(tamano + 1),
                                                                                           column=tamano)
-
-    def resolver_matriz(self):
-        # Obtener los valores ingresados
-        numFilas = int(self.caja_filas.get())
-        numColumnas = int(self.caja_columnas.get())
-        # matriz=[]
-        for i in range(numFilas):
-            # fila=[]
-            for j in range(numColumnas):
-                print(self.matriz[i][j].get())
-                self.fila.append(self.matriz[i][j].get())
-            self.matriz.append(self.fila)
-        # gaussMethod(self.caja_filas, self.caja_columnas,self.matriz)
 
     def enter_coordinates(self):
         try:
@@ -1081,6 +1070,20 @@ class MainWindow:
             self.show_results(a, b, x, y)
         except Exception as e:
             messagebox.showerror("Error", str(e))
+    def resolver_matriz(self):
+        # Obtener los valores ingresados
+        numFilas = int(self.caja_filas.get())
+        numColumnas = int(self.caja_columnas.get())
+        # matriz=[]
+        for i in range(numFilas):
+             #fila=[]
+            for j in range(numColumnas):
+                print(self.matriz[i][j].get())
+                self.fila.append(self.matriz[i][j].get())
+            self.matriz.append(self.fila)
+        # gaussMethod(self.caja_filas, self.caja_columnas,self.matriz)
+
+
 
     def back(self, actual_window):
         actual_window.destroy()
