@@ -122,7 +122,7 @@ class MainWindow:
             self.fila = []
             for j in range(numFilas):
                 self.caja = tkinter.Entry(self.windowjacobi, width=6, validate="key")
-                self.caja.config(validatecommand=(self.windowgauss.register(self.validate), "%S"))
+                self.caja.config(validatecommand=(self.windowjacobi.register(self.validate), "%S"))
                 self.caja.grid(row=i, column=j)
                 self.fila.append(self.caja)
             self.matriz.append(self.fila)
