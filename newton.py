@@ -2,59 +2,66 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sp
 
-def newton_raphson_method(func, derivative_func, x0, tol=1e-6, max_iter=100):
-    x = x0
-    num_iterations = 0
-    while abs(func(x)) > tol and num_iterations < max_iter:
-        x = x - func(x) / derivative_func(x)
-        num_iterations += 1
-    return x, num_iterations
+import matplotlib.pyplot as plt
+import numpy as np
+#from tabulate import tabulate
 
-# Solicitar entrada al usuario para la función
-expression = input("Ingrese la función (por ejemplo, 'x**3 - 5*x + 27'): ")
-x_symbol = sp.symbols('x')
-func = sp.sympify(expression)
-func_numeric = sp.lambdify(x_symbol, func, 'numpy')
 
-# Solicitar entrada al usuario para la derivada
-derivative_expression = input("Ingrese la derivada de la función (por ejemplo, '3*x**2 - 5'): ")
-derivative_func = sp.sympify(derivative_expression)
-derivative_func_numeric = sp.lambdify(x_symbol, derivative_func, 'numpy')
+print("\nMÉTODO DE NEWTON RAPHSON\n")
 
-# Solicitar entrada al usuario para x0
-x0 = float(input("Ingrese la aproximación inicial (x0): "))
+# INGRESO
+#Funcion Original
+def funcionNormal(x):
+    fx= x**3+2*x**2+10*x-20
+    return fx
+#Primera derivada de la función
+def primeraDeriv(x):
+    dfx = 3*x**2+4*x+10
+    return dfx
+#Segunda derivada de la función
+def segundaDeriv(x):
+    ddfx = 6*x+4
+    return ddfx
 
-# Solicitar entrada al usuario para la tolerancia
-tolerancia = float(input("Ingrese la tolerancia (por ejemplo, 1e-6): "))
+def gPrima(fdx,dfx,ddfx):
+    gPrima = abs(1-((dfx*dfx)-(fdx*ddfx))/dfx**2)
+    return gPrima
 
-# Solicitar entrada al usuario para el máximo de iteraciones
-max_iteraciones = int(input("Ingrese el número máximo de iteraciones: "))
+def newton_raphson_method(funcion, derivfun, x0, err, iter):
+    plt.plot(xn, yn)
+    plt.grid(True)
+    plt.axhline(0, color="#ff0000") 
+    plt.axvline(0, color="#ff0000")  
+    plt.title("Metodo Newton Raphson")
+    plt.ylabel("Eje Y")
+    plt.xlabel("Eje X")
+    plt.plot(xi,0, 'ro')
+    a = -2  
+    b = 5  
+    xn = np.linspace(a, b, n)  
+    n = iter
+    x = np.linspace(-6,4,100);
+    x0 = 1
+    yn = funcion
+    error = 0.00010
+    # PROCEDIMIENTO
+    tramo = abs(2*error)
+    xi = x0
+    tabla=[]
+    iteracion=-1
+    while (tramo>=error):
+        iteracion=iteracion+1
+        xnuevo = xi - (funcionNormal(xi)/primeraDeriv(xi))
+        tramo  = abs(xnuevo-xi)
+        gPrimaValor = gPrima(funcionNormal(xi),primeraDeriv(xi),segundaDeriv(xi))
+        xi = xnuevo
+        tabla.append([iteracion,xi,tramo,gPrimaValor])
+    # SALIDA
+    #print(tabulate(tabla, headers=['Iteración','Xi','Xi+1 - Xi','g(x)´']))
+    print("\nLa raíz exacta es: ", xi,"\n\n")
+    # GRÁFICA
 
-root, num_iterations = newton_raphson_method(func_numeric, derivative_func_numeric, x0, tol=tolerancia, max_iter=max_iteraciones)
 
-# Utilizar lambdify para obtener una función numérica que pueda ser evaluada
-func_numeric = sp.lambdify(x_symbol, func, 'numpy')
 
-# Calcular el valor de la función en la raíz
-func_value_at_root = func_numeric(root)
 
-# Calcular el error porcentual
-error_porcentual = abs(func_value_at_root) * 100
-
-print(f"Aproximación de la raíz: {root}")
-print(f"Valor de la función en la raíz: {func_value_at_root}")
-print(f"Número de iteraciones: {num_iterations}")
-print(f"Error porcentual: {error_porcentual:.6f}%")
-
-x_vals = np.linspace(root - 2, root + 2, 100)
-y_vals = func_numeric(x_vals)
-
-plt.plot(x_vals, y_vals, label='f(x)')
-plt.axhline(0, color='red')
-plt.axvline(root, color='green')
-plt.xlabel('x')
-plt.ylabel('f(x)')
-plt.legend()
-plt.grid(True)
-plt.title('Gráfica de la función y aproximación de la raíz')
 plt.show()

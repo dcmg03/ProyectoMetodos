@@ -8,6 +8,7 @@ from Trapezoide import trapecio
 from MBiseccion import biseccion
 from gauss import gaussMethod
 from Simpson import simpson
+from newton import newton_raphson_method
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -157,10 +158,6 @@ class MainWindow:
         self.text.tag_add("center", "1.0", "end")
         self.text.grid(row=1, column=0, columnspan=3, padx=3, pady=3)
 
-
-
-
-
          # FUNCION SIN DESPEJAR
         self.label_function = tkinter.Label(self.windownewton, text="Función sin despejar f(x):", font="Helvetica 13",
                                             background="darkgray")
@@ -202,12 +199,72 @@ class MainWindow:
         self.entry_it.config(validatecommand=(self.entry_it.register(self.validate), '%S'))
         self.entry_it.grid(row=6, column=1, padx=3, pady=3)
 
+            
+        # CALCULAR
+        calculate = tkinter.Button(self.windownewton, text="Calcular", width=10, height=2, command=self.startNewton)
+        calculate.grid(row=8, column=1, padx=10, pady=10)
+        self.open_windows.append(self.windownewton)
 
-
-        # boton regresar
+        #boton regresar
         back_main = tkinter.Button(self.windownewton, text="Regresar", width=10, height=2,
                                    command=lambda: self.back(self.windownewton))
         back_main.grid(row=10, column=1)
+
+    def startNewton(self):
+        if '/x' in self.entry_functionpt.get() and self.entry_apt.get() == '0' and '/x' in self.entry_gfunction.get():
+            self.windowsalert = tkinter.Toplevel(self.windowpt)
+            self.windowsalert.title("Error")
+            self.windowsalert.geometry("300x100")
+            self.windowsalert.configure(background="darkgray")
+            self.labelalert = tkinter.Label(self.windowsalert, text="No se puede dividir entre cero",
+                                            font="Helvetica 13", background="darkgray")
+            self.labelalert.grid(row=0, column=0, columnspan=3, sticky="nsew")
+        elif self.entry_functionpt.get() == '' or self.entry_gfunction.get() == '' or self.entry_apt.get() == '' or self.entry_errapt.get() == '' or self.entry_it.get() == '':
+            self.windowsalert = tkinter.Toplevel(self.windowpt)
+            self.windowsalert.title("Error")
+            self.windowsalert.geometry("300x100")
+            self.windowsalert.configure(background="darkgray")
+            self.labelalert = tkinter.Label(self.windowsalert, text="Por favor ingrese todos los datos",
+                                            font="Helvetica 13", background="darkgray")
+            self.labelalert.grid(row=0, column=0, columnspan=3, sticky="nsew")
+        else:
+            self.windownewton.withdraw()
+            self.windowrespt = tkinter.Toplevel(self.windownewton)
+            self.windowrespt.title("Resultados Newton")
+            self.windowrespt.geometry("408x475")
+            self.windowrespt.configure(background="darkgray")
+            self.windowrespt.update()
+            screen_width = self.windowrespt.winfo_screenwidth()
+            screen_height = self.windowrespt.winfo_screenheight()
+            x = int((screen_width / 2) - (self.windowrespt.winfo_width() / 2))
+            y = int((screen_height / 2) - (self.windowrespt.winfo_height() / 2))
+            self.windowrespt.geometry("+{}+{}".format(x, y))
+            self.title = tkinter.Label(self.windowrespt, text="Resultados Newton", bg="gold", font="Helvetica 20")
+            self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
+            self.label_respt = tkinter.Label(self.windowrespt, text="La raíz se encuentra en:", font="Helvetica 13",
+                                             background="darkgray")
+            self.label_respt.grid(row=1, column=0, padx=3, pady=3)
+            resultpt = newton_raphson_method(self.entry_functionpt.get(), self.entry_gfunction.get(), self.entry_apt.get(),
+                             self.entry_errapt.get(), self.entry_it.get())
+            self.label_respt = tkinter.Label(self.windowrespt, text=str(resultpt[1]), font="Helvetica 13",
+                                             background="darkgray")
+            self.label_respt.grid(row=1, column=1, padx=3, pady=3)
+            self.label_errpt = tkinter.Label(self.windowrespt, text="El error es :", font="Helvetica 13",
+                                             background="darkgray")
+            self.label_errpt.grid(row=2, column=0, padx=3, pady=3)
+            self.label_errbpt = tkinter.Label(self.windowrespt, text=str(resultpt[2]), font="Helvetica 13",
+                                              background="darkgray")
+            self.label_errbpt.grid(row=2, column=1, padx=3, pady=3)
+            figpt = resultpt[0]
+            figpt.set_size_inches(4, 3)
+            canvas = FigureCanvasTkAgg(figpt, master=self.windowrespt)
+            canvas.draw()
+            canvas.get_tk_widget().grid(row=3, column=0, columnspan=2, padx=3, pady=3)
+            back_mainpt = tkinter.Button(self.windowrespt, text="Regresar", width=10, height=2,
+                                         command=lambda: self.back(self.windowrespt))
+            back_mainpt.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+            self.open_windows.append(self.windowrespt)
+
 
     def punto_fijo(self):
         self.window.withdraw()
@@ -270,14 +327,12 @@ class MainWindow:
         self.entry_it.config(validate="key")
         self.entry_it.config(validatecommand=(self.entry_it.register(self.validate), '%S'))
         self.entry_it.grid(row=6, column=1, padx=3, pady=3)
-        # REGRESAR AL INICIO
-        back_main = tkinter.Button(self.windowpt, text="Regresar", width=10, height=2,
-                                   command=lambda: self.back(self.windowpt))
-        back_main.grid(row=8, column=0, padx=10, pady=10)
+      
         # CALCULAR
         calculate = tkinter.Button(self.windowpt, text="Calcular", width=10, height=2, command=self.startPuntoFijo)
         calculate.grid(row=8, column=1, padx=10, pady=10)
         self.open_windows.append(self.windowpt)
+        
 
     def startPuntoFijo(self):
         if '/x' in self.entry_functionpt.get() and self.entry_apt.get() == '0' and '/x' in self.entry_gfunction.get():
