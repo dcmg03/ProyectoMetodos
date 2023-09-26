@@ -95,7 +95,7 @@ class MainWindow:
         self.matrix_entries = []
         self.vector_entries = []
 
-        self.etiqueta_tamano = tkinter.Label(self.windowjacobi, text="Ingrese el tamaño de la matriz:")
+        self.etiqueta_tamano = tkinter.Label(self.windowjacobi, text="Ingrese el tamaño de la matriz:",font="Helvetica 12", background="darkgray")
         self.etiqueta_tamano.grid(row=1, column=0)
         self.caja_tamano = tkinter.Entry(self.windowjacobi, validate="key")
         self.caja_tamano.config(validatecommand=(self.windowjacobi.register(self.validate), "%S"))
@@ -104,28 +104,60 @@ class MainWindow:
         #self.entry_tamano=tkinter.Entry(self.windowjacobi, font="Helvetica 14")
         #self.entry_tamano.grid(row=2, column=1, padx=3, pady=3)
         self.tamano = self.caja_tamano.get()
-        self.botonC=tkinter.Button(self.windowjacobi, text="Crear matriz", font="Helvetica 13", width=10, height=2,
+        self.botonC=tkinter.Button(self.windowjacobi, text="Crear matriz", font="Helvetica 10", width=10, height=2,
                                       command=self.crearMatrixJ)
-        self.botonC.grid(row=4, column=0, columnspan=2, )
+        self.botonC.grid(row=4, column=0, columnspan=1, )
+        # CALCULAR
+        calculate = tkinter.Button(self.windowjacobi, text="Calcular", width=10, height=2, command=self.startJacobi)
+        calculate.grid(row=8, column=1, padx=10, pady=10)
+        self.open_windows.append(self.windowjacobi)
 
         # boton regresar
         back_main = tkinter.Button(self.windowjacobi, text="Regresar", width=10, height=2,
                                    command=lambda: self.back(self.windowjacobi))
-        back_main.grid(row=10, column=1)
+        back_main.grid(row=17, column=1)
+
+    def startJacobi(self):
+        self.warning_label = tkinter.Label(self.windowjacobi, text="", fg="red")
+        # Verifica que todas las entradas de la matriz estén completas
+        for self.numFilasJ in self.matrix_entries:
+            for entry in self.matriz:
+                if not self.matriz.get():
+                    self.warning_label.config(text="Por favor, complete todas las entradas de la matriz.")
+                    return
+
+        # Si todas las entradas están completas, puedes continuar con el procesamiento
+        self.warning_label.config(text="")  # Borra cualquier mensaje de advertencia anterior
+        # Continúa con el procesamiento de la matriz
 
 
     def crearMatrixJ(self):
-        numFilas = int(self.caja_tamano.get())
-
+        self.numFilasJ = int(self.caja_tamano.get())
+        self.etiqueta=tkinter.Label(self.windowjacobi, text="Ingrese el valor de los terminos", background="darkgray",font="Helvetica 12")
+        self.etiqueta.grid(row=5, column=0, columnspan=3, sticky="nsew")
         self.matriz = []
-        for i in range(numFilas):
+        for i in range(self.numFilasJ):
             self.fila = []
-            for j in range(numFilas):
+            for j in range(self.numFilasJ):
                 self.caja = tkinter.Entry(self.windowjacobi, width=6, validate="key")
                 self.caja.config(validatecommand=(self.windowjacobi.register(self.validate), "%S"))
-                self.caja.grid(row=i, column=j)
+                self.caja.grid(row=i+5, column=j+4)
                 self.fila.append(self.caja)
             self.matriz.append(self.fila)
+
+
+        self.b_entries = []
+
+        for i in range(self.numFilasJ):
+            entry = tkinter.Entry(self.windowjacobi, width=6)
+            entry.grid(row=i + 5, column=self.numFilasJ+5)
+            self.b_entries.append(entry)
+
+
+
+
+
+
 
 
 
@@ -134,7 +166,7 @@ class MainWindow:
         self.window.withdraw()
         self.windownewton = tkinter.Toplevel(self.window)
         self.windownewton.title("Newthon raphson")
-        self.windownewton.geometry("490x330")
+        self.windownewton.geometry("490x400")
         self.windownewton.configure(background="darkgray")
         # CENTRAR LA VENTANA EN LA PANTALLA
         self.windownewton.update()
@@ -178,11 +210,11 @@ class MainWindow:
         # VALOR INICIAL
         self.label_it = tkinter.Label(self.windownewton, text="Ingrese el valor inicial", font="Helvetica 13",
                                       background="darkgray")
-        self.label_it.grid(row=6, column=0, padx=3, pady=3)
+        self.label_it.grid(row=4, column=0, padx=3, pady=3)
         self.entry_it = tkinter.Entry(self.windownewton, font="Helvetica 14")
         self.entry_it.config(validate="key")
         self.entry_it.config(validatecommand=(self.entry_it.register(self.validate), '%S'))
-        self.entry_it.grid(row=6, column=1, padx=3, pady=3)
+        self.entry_it.grid(row=4, column=1, padx=3, pady=3)
 
         # PORCENTAJE DE ERROR
         self.label_err = tkinter.Label(self.windownewton, text="Ingrese el valor del error:", font="Helvetica 13",
