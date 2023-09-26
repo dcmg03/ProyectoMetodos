@@ -66,7 +66,7 @@ class MainWindow:
         self.button8.grid(row=3, column=1, padx=5, pady=5, sticky="NSEW")
         self.button9.grid(row=3, column=2, padx=5, pady=5, sticky="NSEW")
 
-        for btn in (self.button1, self.button2, self.button3, self.button4, self.button5, self.button6, self.button7):
+        for btn in (self.button1, self.button2, self.button3, self.button4, self.button5, self.button6, self.button7, self.button8,self.button9):
             btn.configure(height=5, width=10)
         self.window.protocol("WM_DELETE_WINDOW", self.on_cerrar_ventana_principal)
 
@@ -88,10 +88,48 @@ class MainWindow:
         self.windowjacobi.geometry("+{}+{}".format(x, y))
         self.title = tkinter.Label(self.windowjacobi, text="Jacobi", bg="lightblue", font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
+
+        self.open_windows.append(self.windowjacobi)
+        #self.lbl_matrix= tkinter.Label(self.windowjacobi, text="Ingrese tamaño de la matriz")
+        #self.lbl_matrix.grid(row=1, column=0, columnspan=3, sticky="nsew")
+        self.matrix_entries = []
+        self.vector_entries = []
+
+        self.etiqueta_tamano = tkinter.Label(self.windowjacobi, text="Ingrese el tamaño de la matriz:")
+        self.etiqueta_tamano.grid(row=1, column=0)
+        self.caja_tamano = tkinter.Entry(self.windowjacobi, validate="key")
+        self.caja_tamano.config(validatecommand=(self.windowjacobi.register(self.validate), "%S"))
+        self.caja_tamano.grid(row=1, column=1)
+
+        #self.entry_tamano=tkinter.Entry(self.windowjacobi, font="Helvetica 14")
+        #self.entry_tamano.grid(row=2, column=1, padx=3, pady=3)
+        self.tamano = self.caja_tamano.get()
+        self.botonC=tkinter.Button(self.windowjacobi, text="Crear matriz", font="Helvetica 13", width=10, height=2,
+                                      command=self.crearMatrixJ)
+        self.botonC.grid(row=4, column=0, columnspan=2, )
+
+        # boton regresar
         back_main = tkinter.Button(self.windowjacobi, text="Regresar", width=10, height=2,
                                    command=lambda: self.back(self.windowjacobi))
         back_main.grid(row=10, column=1)
-        self.open_windows.append(self.windowjacobi)
+
+
+    def crearMatrixJ(self):
+        numFilas = int(self.caja_tamano.get())
+
+        self.matriz = []
+        for i in range(numFilas):
+            self.fila = []
+            for j in range(numFilas):
+                self.caja = tkinter.Entry(self.windowjacobi, width=6, validate="key")
+                self.caja.config(validatecommand=(self.windowgauss.register(self.validate), "%S"))
+                self.caja.grid(row=i, column=j)
+                self.fila.append(self.caja)
+            self.matriz.append(self.fila)
+
+
+
+
     def newton(self):
         self.window.withdraw()
         self.windownewton = tkinter.Toplevel(self.window)
@@ -107,6 +145,21 @@ class MainWindow:
         self.windownewton.geometry("+{}+{}".format(x, y))
         self.title = tkinter.Label(self.windownewton, text="Newton Raphson", bg="lightblue", font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
+
+        # MENSAJE INFORMATIVO
+        self.text = tkinter.Text(self.windownewton, width=68, height=4, font="Helvetica 10", state="disabled",
+                                 bg="lightgreen")
+        self.text.config(state="normal")
+        texto_ejemplo = "Para el ingreso de funciones tener en cuenta:\n *Raices cuadradas: np.sqrt() o x**(1/2), cubicas np.cbsqrt o  x**(1/3)\n *Funciones trigonométricas antepuestas con np.cos, np.sen \n *El término variable se expresa con x "
+        self.text.insert("1.0", texto_ejemplo)
+        self.text.config(state="disabled")
+        self.text.tag_configure("center", justify="center")
+        self.text.tag_add("center", "1.0", "end")
+        self.text.grid(row=1, column=0, columnspan=3, padx=3, pady=3)
+
+
+
+        #Boton Regresar
         back_main = tkinter.Button(self.windownewton, text="Regresar", width=10, height=2,
                                    command=lambda: self.back(self.windownewton))
         back_main.grid(row=10, column=1)
