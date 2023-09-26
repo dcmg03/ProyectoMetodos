@@ -165,6 +165,63 @@ class MainWindow:
         back_main.grid(row=10, column=1)
         self.open_windows.append(self.windownewton)
 
+        # MENSAJE INFORMATIVO
+        self.text = tkinter.Text(self.windownewton, width=68, height=4, font="Helvetica 10", state="disabled",
+                                 bg="lightgreen")
+        self.text.config(state="normal")
+        texto_ejemplo = "Para el ingreso de funciones tener en cuenta:\n *Raices cuadradas: np.sqrt() o x**(1/2), cubicas np.cbsqrt o  x**(1/3)\n *Funciones trigonométricas antepuestas con np.cos, np.sen \n *El término variable se expresa con x "
+        self.text.insert("1.0", texto_ejemplo)
+        self.text.config(state="disabled")
+        self.text.tag_configure("center", justify="center")
+        self.text.tag_add("center", "1.0", "end")
+        self.text.grid(row=1, column=0, columnspan=3, padx=3, pady=3)
+
+         # FUNCION SIN DESPEJAR
+        self.label_function = tkinter.Label(self.windownewton, text="Función sin despejar f(x):", font="Helvetica 13",
+                                            background="darkgray")
+        self.label_function.grid(row=2, column=0, padx=3, pady=3)
+        self.entry_functionpt = tkinter.Entry(self.windownewton, font="Helvetica 14")
+        self.entry_functionpt.grid(row=2, column=1, padx=3, pady=3)
+
+        #FUNCION DERIVADA
+        self.label_gfunction = tkinter.Label(self.windownewton, text="Función derivada g(x):", font="Helvetica 13",
+                                             background="darkgray")
+        self.label_gfunction.grid(row=3, column=0, columnspan=1, padx=3, pady=3)
+        self.entry_gfunction = tkinter.Entry(self.windownewton, font="Helvetica 14")
+        self.entry_gfunction.grid(row=3, column=1, padx=3, pady=3)
+
+        # VALOR INICIAL
+        self.label_it = tkinter.Label(self.windownewton, text="Ingrese el valor inicial", font="Helvetica 13",
+                                      background="darkgray")
+        self.label_it.grid(row=6, column=0, padx=3, pady=3)
+        self.entry_it = tkinter.Entry(self.windownewton, font="Helvetica 14")
+        self.entry_it.config(validate="key")
+        self.entry_it.config(validatecommand=(self.entry_it.register(self.validate), '%S'))
+        self.entry_it.grid(row=6, column=1, padx=3, pady=3)
+
+        # PORCENTAJE DE ERROR
+        self.label_err = tkinter.Label(self.windownewton, text="Ingrese el valor del error:", font="Helvetica 13",
+                                       background="darkgray")
+        self.label_err.grid(row=5, column=0, padx=3, pady=3)
+        self.entry_errapt = tkinter.Entry(self.windownewton, font="Helvetica 14")
+        self.entry_errapt.config(validate="key")
+        self.entry_errapt.config(validatecommand=(self.entry_errapt.register(self.validate), '%S'))
+        self.entry_errapt.grid(row=5, column=1, padx=3, pady=3)
+
+        # NUMERO MAXIMO DE ITERACIONES
+        self.label_it = tkinter.Label(self.windownewton, text="Ingrese el maximo de iteraciones:", font="Helvetica 13",
+                                      background="darkgray")
+        self.label_it.grid(row=6, column=0, padx=3, pady=3)
+        self.entry_it = tkinter.Entry(self.windownewton, font="Helvetica 14")
+        self.entry_it.config(validate="key")
+        self.entry_it.config(validatecommand=(self.entry_it.register(self.validate), '%S'))
+        self.entry_it.grid(row=6, column=1, padx=3, pady=3)
+
+        # CALCULAR
+        calculate = tkinter.Button(self.windownewton, text="Calcular", width=10, height=2, command=self.startPuntoFijo)
+        calculate.grid(row=8, column=1, padx=10, pady=10)
+        self.open_windows.append(self.windownewton)
+
     def punto_fijo(self):
         self.window.withdraw()
         self.windowpt = tkinter.Toplevel(self.window)
