@@ -202,7 +202,7 @@ class MainWindow:
         self.entry_it.config(validatecommand=(self.entry_it.register(self.validate), '%S'))
         self.entry_it.grid(row=6, column=1, padx=3, pady=3)
 
-        
+
 
         # boton regresar
         back_main = tkinter.Button(self.windownewton, text="Regresar", width=10, height=2,
