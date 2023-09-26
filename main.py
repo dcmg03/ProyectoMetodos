@@ -164,10 +164,7 @@ class MainWindow:
         self.entry_it.config(validatecommand=(self.entry_it.register(self.validate), '%S'))
         self.entry_it.grid(row=6, column=1, padx=3, pady=3)
 
-        # CALCULAR
-        calculate = tkinter.Button(self.windownewton, text="Calcular", width=10, height=2, command=self.startPuntoFijo)
-        calculate.grid(row=8, column=1, padx=10, pady=10)
-        self.open_windows.append(self.windownewton)
+        
 
     def punto_fijo(self):
         self.window.withdraw()
