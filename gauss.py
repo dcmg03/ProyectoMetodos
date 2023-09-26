@@ -18,7 +18,7 @@ def valores_inicial(n):
 def gaussMethod(n, m, matriz, vectorI):
     # [[4,-1,0,0],[-1,4,-1,0],[0,-1,4,-1],[0,0,-1,4]]
     # [1,1,1,1]
-    A = matriz
+    A = matriz [m][n]
     b = coeficientes_indepentiendes(n)
     x0=valores_inicial(n)
     k=0
