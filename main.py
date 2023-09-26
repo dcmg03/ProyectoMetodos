@@ -18,7 +18,7 @@ class MainWindow:
 
         self.window = tkinter.Tk()
         self.window.title("Proyecto metodos")
-        self.window.geometry("640x640")
+        self.window.geometry("550x480")
         self.window.update()
         self.open_windows = []
         screen_width = self.window.winfo_screenwidth()
@@ -66,7 +66,7 @@ class MainWindow:
         self.button8.grid(row=3, column=1, padx=5, pady=5, sticky="NSEW")
         self.button9.grid(row=3, column=2, padx=5, pady=5, sticky="NSEW")
 
-        for btn in (self.button1, self.button2, self.button3, self.button4, self.button5, self.button6, self.button7):
+        for btn in (self.button1, self.button2, self.button3, self.button4, self.button5, self.button6, self.button7, self.button8,self.button9):
             btn.configure(height=5, width=10)
         self.window.protocol("WM_DELETE_WINDOW", self.on_cerrar_ventana_principal)
 
@@ -88,10 +88,48 @@ class MainWindow:
         self.windowjacobi.geometry("+{}+{}".format(x, y))
         self.title = tkinter.Label(self.windowjacobi, text="Jacobi", bg="lightblue", font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
+
+        self.open_windows.append(self.windowjacobi)
+        #self.lbl_matrix= tkinter.Label(self.windowjacobi, text="Ingrese tamaño de la matriz")
+        #self.lbl_matrix.grid(row=1, column=0, columnspan=3, sticky="nsew")
+        self.matrix_entries = []
+        self.vector_entries = []
+
+        self.etiqueta_tamano = tkinter.Label(self.windowjacobi, text="Ingrese el tamaño de la matriz:")
+        self.etiqueta_tamano.grid(row=1, column=0)
+        self.caja_tamano = tkinter.Entry(self.windowjacobi, validate="key")
+        self.caja_tamano.config(validatecommand=(self.windowjacobi.register(self.validate), "%S"))
+        self.caja_tamano.grid(row=1, column=1)
+
+        #self.entry_tamano=tkinter.Entry(self.windowjacobi, font="Helvetica 14")
+        #self.entry_tamano.grid(row=2, column=1, padx=3, pady=3)
+        self.tamano = self.caja_tamano.get()
+        self.botonC=tkinter.Button(self.windowjacobi, text="Crear matriz", font="Helvetica 13", width=10, height=2,
+                                      command=self.crearMatrixJ)
+        self.botonC.grid(row=4, column=0, columnspan=2, )
+
+        # boton regresar
         back_main = tkinter.Button(self.windowjacobi, text="Regresar", width=10, height=2,
                                    command=lambda: self.back(self.windowjacobi))
         back_main.grid(row=10, column=1)
-        self.open_windows.append(self.windowjacobi)
+
+
+    def crearMatrixJ(self):
+        numFilas = int(self.caja_tamano.get())
+
+        self.matriz = []
+        for i in range(numFilas):
+            self.fila = []
+            for j in range(numFilas):
+                self.caja = tkinter.Entry(self.windowjacobi, width=6, validate="key")
+                self.caja.config(validatecommand=(self.windowjacobi.register(self.validate), "%S"))
+                self.caja.grid(row=i, column=j)
+                self.fila.append(self.caja)
+            self.matriz.append(self.fila)
+
+
+
+
     def newton(self):
         self.window.withdraw()
         self.windownewton = tkinter.Toplevel(self.window)
@@ -107,10 +145,6 @@ class MainWindow:
         self.windownewton.geometry("+{}+{}".format(x, y))
         self.title = tkinter.Label(self.windownewton, text="Newton Raphson", bg="lightblue", font="Helvetica 20")
         self.title.grid(row=0, column=0, columnspan=3, sticky="nsew")
-        back_main = tkinter.Button(self.windownewton, text="Regresar", width=10, height=2,
-                                   command=lambda: self.back(self.windownewton))
-        back_main.grid(row=10, column=1)
-        self.open_windows.append(self.windownewton)
 
         # MENSAJE INFORMATIVO
         self.text = tkinter.Text(self.windownewton, width=68, height=4, font="Helvetica 10", state="disabled",
@@ -122,6 +156,10 @@ class MainWindow:
         self.text.tag_configure("center", justify="center")
         self.text.tag_add("center", "1.0", "end")
         self.text.grid(row=1, column=0, columnspan=3, padx=3, pady=3)
+
+
+
+
 
          # FUNCION SIN DESPEJAR
         self.label_function = tkinter.Label(self.windownewton, text="Función sin despejar f(x):", font="Helvetica 13",
@@ -165,6 +203,11 @@ class MainWindow:
         self.entry_it.grid(row=6, column=1, padx=3, pady=3)
 
         
+
+        # boton regresar
+        back_main = tkinter.Button(self.windownewton, text="Regresar", width=10, height=2,
+                                   command=lambda: self.back(self.windownewton))
+        back_main.grid(row=10, column=1)
 
     def punto_fijo(self):
         self.window.withdraw()
@@ -980,6 +1023,8 @@ class MainWindow:
         self.entry_num_coordinates = tkinter.Entry(self.windowminimos)
         self.entry_num_coordinates.grid(row=2, column=0, columnspan=3, sticky="nsew")
 
+
+
         # Botón para ingresar las coordenadas
         self.enter_coordinates_button = tkinter.Button(self.windowminimos, text="Ingresar Coordenadas", width=10,
                                                        height=2, command=self.enter_coordinates)
@@ -992,11 +1037,11 @@ class MainWindow:
         self.calculate_button = tkinter.Button(self.windowminimos, text="Calcular", command=self.calculate)
         self.calculate_button.grid(row=4, column=0, columnspan=3, sticky="nsew")
         # self.calculate_button.pack()
-
-        back_main = tkinter.Button(self.windowminimos, text="Regresar", width=10, height=2,
-                                   command=lambda: self.back(self.windowminimos))
-        back_main.grid(row=10, column=1)
+        back_maintrap = tkinter.Button(self.windowminimos, text="Regresar", width=10, height=2,
+                                       command=lambda: self.back(self.windowminimos))
+        back_maintrap.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
         self.open_windows.append(self.windowminimos)
+
 
     def gauss(self):
         self.window.withdraw()
@@ -1057,7 +1102,7 @@ class MainWindow:
                 self.caja.grid(row=i, column=j)
                 self.fila.append(self.caja)
             self.matriz.append(self.fila)
-        # Agregar el botón de resolver
+        #Agregar el botón de resolver
         boton_resolver = tkinter.Button(frame_matriz, text="Resolver", command=self.resolver_matriz)
         boton_resolver.grid()
 
@@ -1078,19 +1123,6 @@ class MainWindow:
         print(self.b_entries)
         tkinter.Button(frame_matriz, text="Siguiente", command=self.resolver_matriz).grid(row=(tamano + 1),
                                                                                           column=tamano)
-
-    def resolver_matriz(self):
-        # Obtener los valores ingresados
-        numFilas = int(self.caja_filas.get())
-        numColumnas = int(self.caja_columnas.get())
-        # matriz=[]
-        for i in range(numFilas):
-            # fila=[]
-            for j in range(numColumnas):
-                print(self.matriz[i][j].get())
-                self.fila.append(self.matriz[i][j].get())
-            self.matriz.append(self.fila)
-        # gaussMethod(self.caja_filas, self.caja_columnas,self.matriz)
 
     def enter_coordinates(self):
         try:
@@ -1135,6 +1167,20 @@ class MainWindow:
             self.show_results(a, b, x, y)
         except Exception as e:
             messagebox.showerror("Error", str(e))
+    def resolver_matriz(self):
+        # Obtener los valores ingresados
+        numFilas = int(self.caja_filas.get())
+        numColumnas = int(self.caja_columnas.get())
+        # matriz=[]
+        for i in range(numFilas):
+             #fila=[]
+            for j in range(numColumnas):
+                print(self.matriz[i][j].get())
+                self.fila.append(self.matriz[i][j].get())
+            self.matriz.append(self.fila)
+        # gaussMethod(self.caja_filas, self.caja_columnas,self.matriz)
+
+
 
     def back(self, actual_window):
         actual_window.destroy()
